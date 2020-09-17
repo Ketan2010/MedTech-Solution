@@ -105,14 +105,6 @@
 				</tr>
 				<tr>
 					<td>
-						<label>Phone No :</label>
-					</td>
-					<td>
-						<input class="inputs"  style="width: 100%;" type="number" name="phone_no" placeholder="Phone No...."/>
-					</td>
-				</tr>
-				<tr>
-					<td>
 						<label>Passsword :</label>
 					</td>
 					<td>

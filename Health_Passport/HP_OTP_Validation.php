@@ -70,7 +70,7 @@
 						<label>Enter OTP :</label>
 					</td>
 					<td>
-						<input class="inputs"  type="number" style="width:100%" name="otp"  size="30" placeholder="Enter OTP...."/>
+						<input class="inputs"  type="number" style="width:100%" name="otp"  size="30" placeholder="Enter OTP...." aria-required="true"/>
 					</td>
 				<tr>
 					<td colspan="2">

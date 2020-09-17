@@ -58,8 +58,8 @@
 	
 		<div class="boxone">
             
-			<h1 style="text-align:center;padding-right:80px;font-family:Amiri;color:#088bf0;font-size:30px;">Create Account</h1>
-			<!-- <label style="padding-right:91px;">Email Id     : </label>
+			<!--<h1 style="text-align:center;padding-right:80px;font-family:Amiri;color:#088bf0;font-size:30px;">Create Account</h1>
+			 <label style="padding-right:91px;">Email Id     : </label>
 			<input class="inputs" type="email" name="pat_email" size="30" placeholder="Email...."><br>
 			<label style="padding-right:111px;">Name : </label>
 			<input class="inputs"  type="text" name="pat_name" size="30" placeholder="First Middle Last"><br>
@@ -75,6 +75,11 @@
 			<label>Conform Passsword : </label><input class="inputs"  type="password" name="pat_con_pass" size="30" placeholder="Conform Password...."><br> -->
 
 			<table>
+				<tr>
+					<td colspan="2">
+					<h1 style="text-align:center;font-family:Amiri;color:#088bf0;font-size:30px;">Create Account</h1>
+					</td>
+				</tr>
 				<tr>
 					<td>
 						<label>Email Id :</label>

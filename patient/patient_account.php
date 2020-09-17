@@ -7,7 +7,7 @@
 
 <style>
 	.inputs{
-		width:60%;
+		width:auto;
 		border: 2px solid dodgerBlue;
 		border-radius: 8px;
 		margin: 8px 0px;
@@ -45,10 +45,6 @@
 			font-size:19px;
 	}
 
-	
-	
-	
-	
 </style>
 
 
@@ -63,15 +59,76 @@
 		<div class="boxone">
             
 			<h1 style="text-align:center;padding-right:80px;font-family:Amiri;color:#088bf0;font-size:30px;">Create Account</h1>
-			<label style="padding-right:91px;">Email Id     : </label><input class="inputs" type="email" name="pat_email" size="30" placeholder="Email...."><br>
-			<label style="padding-right:111px;">Name : </label><input class="inputs"  type="text" name="pat_name" size="30" placeholder="First Middle Last"><br>
+			<!-- <label style="padding-right:91px;">Email Id     : </label>
+			<input class="inputs" type="email" name="pat_email" size="30" placeholder="Email...."><br>
+			<label style="padding-right:111px;">Name : </label>
+			<input class="inputs"  type="text" name="pat_name" size="30" placeholder="First Middle Last"><br>
 			<label style="padding-right:100px;"> Gender : </label>
-				<label>Male </label><input type="radio" id="male" value="male" name="gender" style="padding-left:10px;margin:0px 0px;">
-				<label>Female </label><input type="radio" id="female" value="female" name="gender"><br>	
-		    <label style="padding-right:75px;">Passsword : </label><input class="inputs"  type="password" name="pat_pass" size="30" placeholder="Password...."><br>
-			<label>Conform Passsword : </label><input class="inputs"  type="password" name="pat_con_pass" size="30" placeholder="Conform Password...."><br>
-			
-			
+				<label>Male </label>
+				<input type="radio" id="male" value="male" name="gender" style="padding-left:10px;margin:0px 0px;">
+				<label>Female </label>
+				<input type="radio" id="female" value="female" name="gender"><br>	
+			<label style="padding-right: 130px;">Phone No:</label>
+			<input class="inputs" type="number" name="phone_no" placeholder="Phone number..."/> <br>
+			<label style="padding-right:75px;">Passsword : </label>
+			<input class="inputs"  type="password" name="pat_pass" size="30" placeholder="Password...."><br>
+			<label>Conform Passsword : </label><input class="inputs"  type="password" name="pat_con_pass" size="30" placeholder="Conform Password...."><br> -->
+
+			<table>
+				<tr>
+					<td>
+						<label>Email Id :</label>
+					</td>
+					<td>
+						<input class="inputs"  type="email" name="pat_email" size="30" placeholder="Email....">
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>Name :</label>
+					</td>
+					<td>
+						<input class="inputs"  type="text" name="pat_name" size="30" placeholder="First Middle Last"/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>Gender :</label>
+					</td>
+					<td>
+						<input type="radio" id="male" value="male" name="gender" style="padding-left:10px;margin:0px 0px;">
+						<label>Male </label>
+						<input type="radio" id="female" value="female" name="gender">								
+						<label>Female </label>
+
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>Phone No :</label>
+					</td>
+					<td>
+						<input class="inputs"  style="width: 100%;" type="number" name="phone_no" placeholder="Phone No...."/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>Passsword :</label>
+					</td>
+					<td>
+						<input class="inputs"  type="password" name="pat_pass" size="30" placeholder="Password...."/>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<label>Conform Passsword :</label>
+					</td>
+					<td>
+						<input class="inputs"  type="password" name="pat_con_pass" size="30" placeholder="Conform Password...."/>
+					</td>
+				</tr>
+				</table>
+
 			<p class="Button"><a href="#">Create Account</a></p>
 		</div>	
 		
@@ -81,7 +138,7 @@
             
         </div>
         <!-- i m Patient -->
-     </div>  
+     </div>   
 </section>
 
 

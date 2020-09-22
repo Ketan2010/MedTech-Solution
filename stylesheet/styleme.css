@@ -1,0 +1,190 @@
+
+  /* rounded button */
+
+  .myButton a {
+    font-family: "Amiri";
+    font-size: 20px;
+    background: #3498db;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    text-decoration: none;
+    margin: 0 0 0 30px;
+    padding: 10px 25px;
+}
+.myButton a:hover {
+    background: #088bf0;
+    color: #fff;
+}
+  /* ~~ Top Navigation Bar ~~ */
+  
+  body
+{
+    margin: 0;
+    padding: 0;
+    font-family: arial, sans-serif;
+    background-color: #464343;
+}
+.text{
+    text-align: center;
+    height: 100px;
+    background: #262626;
+    color: #FFF;
+}
+.nav{
+    background: #19191a;
+    color: #FFF;
+    display: flex;
+    position: fixed;
+    z-index:1;
+    top: 0;
+    left: 0;
+    width: 100%
+}
+.nav .logo{
+    font-family: 'Amiri';
+    font-size: 24px;
+    padding: 20px;
+    margin-left: 25px;
+    text-decoration:none; color:white;
+}
+
+.nav ul{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    width: 50%;
+    margin-left: auto
+}
+ul li{
+    padding: 20px;
+    list-style: none
+}
+ul li a{
+    font-size: 20px;
+    padding: 20px;
+    text-decoration:none;
+     color:white;
+}
+section{
+    height: 300px;
+}
+.sticky{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%
+}
+.home{
+    margin-top: 100px;
+}
+.flex-parent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .box {
+    margin: 10px;
+    padding: 90px;
+    width:500px;
+    height:300px;   
+  }
+  .boxone {
+    margin: 10px;
+    padding: 35px;
+    width:500px;
+    height:300px;   
+  }
+/* homepage tagline */
+  .head {
+    font-family: 'Amiri';
+    font-size: 55px;
+    color: white;
+  }
+  
+  /* sidenav */
+  .sidenav {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    z-index: 1;
+    top: 67px;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 20px;
+  }
+  
+  .sidenav a {
+    padding: 6px 8px 6px 16px;
+    font-family: 'Abel';
+    text-decoration: none;
+    font-size: 20px;
+    color:rgb(204, 203, 203);
+    display: block;
+  }
+  
+  .sidenav a:hover {
+    color: #8d9092;
+  }
+  
+  @media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+  }
+  .main {
+    margin-left: 200px; /* Same as the width of the sidenav */
+    margin-top: 40px;
+    font-size: 20px; 
+    /* change below padding for forms */
+    padding: 25px 45px; 
+    color:white;
+
+  }
+/* To make grids of displaying statistics */
+  .grid-container {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-column-gap: 20px;
+  }
+  .grid-item {
+    border: 1px solid rgba(0, 0, 0, 0.8);
+    padding: 25px;
+    background-color:#a6d9fc;
+    font-size: 25px;
+    color:black;
+    text-align: center;
+  }
+ 
+  /* on hover username */
+  .dropbtn {
+    font-size: 25px;
+    border: none;
+  }
+  
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-content a:hover {background-color: #ddd;}
+  
+  .dropdown:hover .dropdown-content {display: block;}
+  

@@ -1,3 +1,17 @@
+<?php
+  // check authentication
+  session_start();
+  if($_SESSION['email']==true){
+    include('../connection/db.php');
+    $dmail= $_SESSION['email'];
+    $query2 =  mysqli_query($conn,"select doc_name from doctor_register where doc_mail='$dmail'");
+    $row2 = mysqli_fetch_array($query2);
+    $dr = $row2['doc_name'];
+  }else{
+    header('location:doctor_login.php');
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

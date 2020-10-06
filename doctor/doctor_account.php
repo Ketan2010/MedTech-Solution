@@ -1,3 +1,42 @@
+<?php
+session_start();
+include('../connection/db.php');
+
+if(isset($_POST['submit'])) {
+  $doc_mail = $_POST['doc_mail'];
+  $doc_gender = $_POST['doc_gender'];
+  $doc_name = $_POST['doc_name'];
+  $doc_specializn = $_POST['doc_specializn'];
+  $doc_pass = $_POST['doc_pass'];
+  $doc_con_pass = $_POST['doc_con_pass'];
+  
+  if($doc_pass==$doc_con_pass){
+    $query = mysqli_query($conn,"insert into doctor_register(doc_name, doc_specializn, doc_gender,doc_mail)values('$doc_name','$doc_specializn','$doc_gender','$doc_mail')");
+    $last_id = $conn->insert_id;
+    $query1 = mysqli_query($conn,"insert into doc_login(doc_id,doc_mail,doc_pass)values('$last_id','$doc_mail','$doc_pass')");
+    var_dump($query);
+    var_dump($query1);
+    if($query and $query1){
+    
+        $_SESSION['email'] = $doc_mail;
+        echo "<script>alert('Registered Successful!')</script>";
+        header('location:complete_doc_profile.php');
+    } else {
+      echo "<script>alert('Something went wrong, please register again!')</script>";
+    }
+
+
+} else {
+    echo "<script>alert('Your password and confirm password are not matching!')</script>";
+
+}
+  
+
+
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,33 +63,31 @@
 	}
 	
 	
-
-	.Button a{
-	border-radius:4px;
-	font-family: "Amiri";
-    background: #3498db;
-    color: #fff;
-	padding:7px 123px;
-	border: none;
-	text-align:center;
-	text-decoration: none;
-	margin-left:55px;
-	}	
-	
-	.Button a:hover {
-    background: #088bf0;
-    color: #fff;
-	}
-	
 	label{
 			font-family:"Amiri";
 			color:#088bf0;
 			font-size:19px;
 	}
-
-	
-	
-	
+	.bigb {
+	background-color:#4c86eb;
+	border-radius:28px;
+	border:1px solid #4e6096;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:10px 36px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #7791d4;
+}
+.bigb:hover {
+	background-color:#579df2;
+}
+.bigb:active {
+	position:relative;
+	top:1px;
+}
 	
 </style>
 
@@ -64,20 +101,25 @@
     <div class="flex-parent">
 	
 		<div class="boxone">
-            
+		<form method="post" action="doctor_account.php" name="doctor_account"> 
 			<h1 style="text-align:center;padding-right:80px;font-family:Amiri;color:#088bf0;font-size:30px;">Doctor Registration</h1>
-			<label style="padding-right:91px;">Email Id     : </label><input class="inputs" type="email" name="doct_email" size="30" placeholder="Email...."><br>
-			<label style="padding-right:111px;">Name : </label><input class="inputs"  type="text" name="doct_name" size="30" placeholder="First Middle Last"><br>
-			<label style="padding-right:48px;">Specialization : </label><input class="inputs"  type="text" name="doct_spec" size="30" placeholder="Designation...."><br>
+			<label style="padding-right:91px;">Email Id     : </label>
+			<input class="inputs" type="email" name="doc_mail" size="30" placeholder="Email...." required><br>
+			<label style="padding-right:111px;">Name : </label>
+			<input class="inputs"  type="text" name="doc_name" size="30" placeholder="Doctor name" required><br>
+			<label style="padding-right:48px;">Specialization : </label>
+			<input class="inputs"  type="text" name="doc_specializn" size="30" placeholder="Designation...." required><br>
 			<label style="padding-right:100px;"> Gender : </label>
-				<label>Male </label><input type="radio" id="male" value="male" name="gender" style="padding-left:10px;margin:0px 0px;">
-				<label>Female </label><input type="radio" id="female" value="female" name="gender"><br>
-				
-		    <label style="padding-right:75px;">Passsword : </label><input class="inputs"  type="password" name="doct_pass" size="30" placeholder="Password...."><br>
-			<label>Conform Passsword : </label><input class="inputs"  type="password" name="doct_con_pass" size="30" placeholder="Conform Password...."><br>
-			
-			
-			<p class="Button"><a href="#">Create Account</a></p>
+				<label>Male </label>
+				<input type="radio" id="male" value="male" name="doc_gender" style="padding-left:10px;margin:0px 0px;">
+				<label>Female </label>
+				<input type="radio" id="female" value="female" name="doc_gender"><br>
+		    <label style="padding-right:75px;">Passsword : </label>
+			<input class="inputs"  type="password" name="doc_pass" size="30" placeholder="Password...." required><br>
+			<label>Conform Passsword : </label>
+			<input class="inputs"  type="password" name="doc_con_pass" size="30" placeholder="Conform Password...." required><br>
+			<input class="bigb" id="submit" value="Register" name="submit" type="submit" >
+		</form>
 		</div>	
 		
         <!-- i m doctor -->
@@ -92,4 +134,5 @@
 
 </body>
 </html>
+
 

@@ -1,3 +1,41 @@
+<?php
+  // check authentication
+  session_start();
+  if($_SESSION['email']==true){
+    include('../connection/db.php');
+    $dmail= $_SESSION['email'];
+    $query2 =  mysqli_query($conn,"select * from doctor_register where doc_mail='$dmail'");
+    $row2 = mysqli_fetch_array($query2);
+    $dr = $row2['doc_name'];
+    $did = $row2['doc_id'];
+  }else{
+    header('location:doctor_login.php');
+  }
+?>
+<?php
+
+include('../connection/db.php');
+$query =  mysqli_query($conn,"select * from doctor_register where doc_id= '$did'");
+$query1 =  mysqli_query($conn,"select * from doc_profile where doc_id= '$did'");
+
+while($row= mysqli_fetch_array($query)) {
+  $doc_name = $row['doc_name'];
+  $doc_specializn = $row['doc_specializn'];
+  $doc_gender = $row['doc_gender'];
+  $doc_mail = $row['doc_mail'];
+}
+while($row1= mysqli_fetch_array($query1)) {
+ 
+    $doc_dob = $row1['doc_dob'];
+    $doc_age = $row1['doc_age'];
+    $doc_contact = $row1['doc_contact'];
+    $doc_designatn = $row1['doc_designatn'];
+    $doc_experience = $row1['doc_experience'];
+    $doc_edu = $row1['doc_edu'];
+    $doc_hospital_name = $row1['doc_hospital_name'];
+    $doc_hospital_add = $row1['doc_hospital_add'];
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -108,27 +146,27 @@ tr:nth-child(even) {
                 <table>
                     <tr>
                         <td>Name :</td>
-                        <td>Joahn</td>
+                        <td><?php echo $doc_name?></td>
                     </tr>
                     <tr>
                         <td>Gender :</td>
-                        <td>Male</td>
+                        <td><?php echo $doc_gender?></td>
                     </tr>
                     <tr>
                         <td>Date of Birth :</td>
-                        <td>20/1/1955</td>
+                        <td><?php echo $doc_dob?></td>
                     </tr>
                     <tr>
                         <td>Age :</td>
-                        <td>65</td>
+                        <td><?php echo $doc_age?></td>
                     </tr>
                     <tr>
                         <td>Contact No :</td>
-                        <td>1122334455</td>
+                        <td><?php echo $doc_contact?></td>
                     </tr>
                     <tr>
                         <td>Email Id :</td>
-                        <td>john@doctor.com</td>
+                        <td><?php echo $doc_mail?></td>
                     </tr>
                 </table>
             </div>
@@ -138,27 +176,27 @@ tr:nth-child(even) {
                 <table>
                     <tr>
                         <td>Designation :</td>
-                        <td>Cardiologist</td>
+                        <td><?php echo $doc_designatn?></td>
                     </tr>
                     <tr>
                         <td>Specialization :</td>
-                        <td>Cardiology</td>
+                        <td><?php echo $doc_specializn?></td>
                     </tr>
                     <tr>
                         <td>Education :</td>
-                        <td>MBBS, MD</td>
+                        <td><?php echo $doc_edu?></td>
                     </tr>
                     <tr>
                         <td>Experience(yrs) :</td>
-                        <td>16</td>
+                        <td><?php echo $doc_experience?></td>
                     </tr>
                     <tr>
                         <td>Hospital Name:</td>
-                        <td>MedTech</td>
+                        <td><?php echo $doc_hospital_name?></td>
                     </tr>
                     <tr>
                         <td>Hospital Address :</td>
-                        <td>London</td>
+                        <td><?php echo $doc_hospital_add?></td>
                     </tr>
                     
                 </table>

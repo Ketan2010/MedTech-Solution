@@ -37,7 +37,7 @@
 
 <div class="main">
         <div style="display: flex;justify-content: space-between;">
-        <h2 style="color:#a6d9fc" >Doctors</h2>
+        <h2 style="color:#a6d9fc" >Appointments</h2>
         
         </div>
         <table style="background-color:black" id="table_id" class="display">

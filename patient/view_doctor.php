@@ -1,20 +1,20 @@
 <?php
   // check authentication
   session_start();
-  if($_SESSION['email']==true){
+  if($_SESSION['pat_email']==true){
     include('../connection/db.php');
-    $dmail= $_SESSION['email'];
-    $query2 =  mysqli_query($conn,"select * from doctor_register where doc_mail='$dmail'");
+    $pmail= $_SESSION['pat_email'];
+    $query2 =  mysqli_query($conn,"select * from pat_register,pat_login where pat_register.pat_id=pat_login.pat_id and pat_email='$pmail'");
     $row2 = mysqli_fetch_array($query2);
-    $dr = $row2['doc_name'];
-    $did = $row2['doc_id'];
+    $pt = $row2['pat_name'];
+    $pid = $row2['pat_id'];
   }else{
-    header('location:doctor_login.php');
+    header('location:patient_login.php');
   }
 ?>
 <?php
+$did = $_GET['docid'];
 
-include('../connection/db.php');
 $query =  mysqli_query($conn,"select * from doctor_register where doc_id= '$did'");
 $query1 =  mysqli_query($conn,"select * from doc_profile where doc_id= '$did'");
 
@@ -117,18 +117,18 @@ tr:nth-child(even) {
 </head>
 <body>
 <!-- navbar for patient part -->
-<?php include('doc_navbar.php');?>
+<?php include('pat_navbar.php');?>
 <!-- vertical navbar for patient part -->
-<?php include('doc_vertical_nav.php');?>
+<?php include('pat_vertical_nav.php');?>
 
 
 <div class="main">
         
 
     <div style="display: flex;justify-content: space-between;">
-        <h2 style="color:#a6d9fc" >Your Profile</h2>
+        <h2 style="color:#a6d9fc" >Dr.<?php echo $doc_name?> Profile</h2>
         <p style="margin: 0 40 0 700px;" class='myButton' >
-            <a  href="doc_profile_update.php"><span style="font-size:20px; color:white" class="fas fa-user-edit"></span> Edit Profile</a>
+            <a  href="book_appointment.php?did=<?php echo $did?>"> Book Appointment</a>
         </p>
     </div>
 

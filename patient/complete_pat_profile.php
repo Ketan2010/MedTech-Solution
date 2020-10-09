@@ -4,9 +4,10 @@
   if($_SESSION['pat_email']==true){
     include('../connection/db.php');
     $pmail= $_SESSION['pat_email'];
-    $query2 =  mysqli_query($conn,"select pat_name from pat_register,pat_login where pat_register.pat_id=pat_login.pat_id and pat_email='$pmail'");
+    $query2 =  mysqli_query($conn,"select * from pat_register,pat_login where pat_register.pat_id=pat_login.pat_id and pat_email='$pmail'");
     $row2 = mysqli_fetch_array($query2);
     $pt = $row2['pat_name'];
+    $pid = $row2['pat_id'];
   }else{
     header('location:patient_login.php');
   }
@@ -66,7 +67,26 @@
 			color:#088bf0;
 			font-size:19px;
 	}
-	
+	.bigb {
+	background-color:#4c86eb;
+	border-radius:28px;
+	border:1px solid #4e6096;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:10px 36px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #7791d4;
+}
+.bigb:hover {
+	background-color:#579df2;
+}
+.bigb:active {
+	position:relative;
+	top:1px;
+}
 	
 
 </style>
@@ -83,10 +103,10 @@
 <div style ="margin-top:-50px" class="main">
 
 <section class="home">
-<h2 style="color:#a6d9fc" >Update Profile</h2>
-<div class="card-body">
+<h2 style="color:#a6d9fc" >Hello <?php echo $pt?>, Complete your Profile</h2>
+<div style="margin: -5% 2%;" class="card-body">
+<form method="post" action="complete_pat_profile.php"> 
     <div class="flex-parent">
-	
 		<div class="boxone">
 			<table>
 				<tr>
@@ -101,7 +121,7 @@
 						<label>Date of Birth :</label>
 					</td>
 					<td>
-						<input class="inputs"  type="date" name="pat_dob" />
+						<input class="inputs" id="pat_dob" onchange="age_calculate()" type="date" name="pat_dob" required/>
 					</td>
 				</tr>
 				<tr>
@@ -109,7 +129,7 @@
 						<label>Age :</label>
 					</td>
 					<td>
-						<input class="inputs"  type="text" name="pat_age"  />
+						<input class="inputs" id="pat_age" type="text" name="pat_age"  required/>
 					</td>
 				</tr>
 				<tr>
@@ -117,7 +137,7 @@
 						<label>Address :</label>
 					</td>
 					<td>
-						<input class="inputs"  type="text" name="pat_add" size="30" placeholder="Residential Address" />
+						<input class="inputs"  type="text" name="pat_address" size="30" placeholder="Residential Address" required/>
 					</td>
 				</tr>
 				<tr>
@@ -125,7 +145,7 @@
 						<label>Contact No :</label>
 					</td>
 					<td>
-						<input class="inputs"  type="text" name="pat_add" size="30" placeholder="Contact Number" />
+						<input class="inputs"  type="text" name="pat_contact" size="30" placeholder="Contact Number" required/>
 					</td>
 				</tr>
 				
@@ -147,9 +167,9 @@
 						<label>Chest Pain or Discomfort :</label>
 					</td>
 					<td>
-						<input  class="inputs" type="radio" id="yes" value="yes" name="cpain" style="padding-left:10px;margin:0px 0px;">
+						<input  class="inputs" type="radio" id="yes" value="yes" name="chest_pain" style="padding-left:10px;margin:0px 0px;">
 						<label>Yes </label>
-						<input class="inputs" type="radio" id="no" value="no" name="cpain">								
+						<input class="inputs" type="radio" id="no" value="no" name="chest_pain">								
 						<label>No </label>
 
 					</td>
@@ -160,9 +180,9 @@
 						<label>Shortness of Breath :</label>
 					</td>
 					<td>
-						<input  class="inputs" type="radio" id="yes" value="yes" name="sbreath" style="padding-left:10px;margin:0px 0px;">
+						<input  class="inputs" type="radio" id="yes" value="yes" name="short_breath" style="padding-left:10px;margin:0px 0px;">
 						<label>Yes </label>
-						<input  class="inputs" type="radio" id="no" value="no" name="sbreath">								
+						<input  class="inputs" type="radio" id="no" value="no" name="short_breath">								
 						<label>No </label>
 
 					</td>
@@ -186,9 +206,9 @@
 						<label>Blood Pressure:</label>
 					</td>
 					<td>
-						<input class="inputs" type="radio" id="yes" value="yes" name="bloodp" style="padding-left:10px;margin:0px 0px;">
+						<input class="inputs" type="radio" id="yes" value="yes" name="bp" style="padding-left:10px;margin:0px 0px;">
 						<label>Yes </label>
-						<input class="inputs" type="radio" id="no" value="no" name="bloodp">								
+						<input class="inputs" type="radio" id="no" value="no" name="bp">								
 						<label>No </label>
 					</td>
 				</tr>
@@ -212,9 +232,9 @@
 						<label>Smoking :</label>
 					</td>
 					<td>
-						<input class="inputs" type="radio" id="yes" value="yes" name="smoking" style="padding-left:10px;margin:0px 0px;">
+						<input class="inputs" type="radio" id="yes" value="yes" name="smoke" style="padding-left:10px;margin:0px 0px;">
 						<label>Yes </label>
-						<input class="inputs" type="radio" id="no" value="no" name="smoking">								
+						<input class="inputs" type="radio" id="no" value="no" name="smoke">								
 						<label>No </label>
 
 					</td>
@@ -246,14 +266,60 @@
 				</tr>
 				
 				</table>
+                <input class="bigb" id="submit" value="Submit" name="submit" type="submit" >
+
         </div>
         
-     </div>   
+     </div>  
+     
 </div>
-<p class="Button"><a href="#">Update</a></p>
+
+</form> 
 </section>
 </div>
 
 </body>
 </html>
+<!-- auto age calculator -->
+<script>
+        function age_calculate(){
+        var today = new Date();
+        var now_yr = today.getFullYear();
 
+        var dob= new Date(document.getElementById('pat_dob').value);
+        var dob_yr = dob.getFullYear();
+        var age = now_yr - dob_yr;
+        document.getElementById('pat_age').value = age;
+
+        }
+    </script>
+
+<?php 
+if(isset($_POST['submit'])) {
+    $pat_dob = $_POST['pat_dob'];
+    $pat_age = $_POST['pat_age'];
+    $pat_address = $_POST['pat_address'];
+    $pat_contact = $_POST['pat_contact'];
+    $chest_pain = $_POST['chest_pain'];
+    $short_breath = $_POST['short_breath'];
+    $diabetes = $_POST['diabetes'];
+    $bp = $_POST['bp'];
+    $alcohol = $_POST['alcohol'];
+    $smoke = $_POST['smoke'];
+    $stress = $_POST['stress'];
+    $exercise = $_POST['exercise'];
+    
+    	
+    $query = mysqli_query($conn,"insert into pat_profile(pat_id,pat_dob,pat_age,pat_address,pat_contact	)values('$pid','$pat_dob','$pat_age','$pat_address','$pat_contact')");
+    $query1 = mysqli_query($conn,"insert into pat_health_info(pat_id, chest_pain, short_breath, diabetes, bp, alcohol, smoke, stress, exercise)values('$pid', '$chest_pain', '$short_breath', '$diabetes', '$bp', '$alcohol', '$smoke', '$stress', '$exercise'	)");
+
+    if($query and $query1){
+        echo "<script>alert('Profile Completed Successfully!')</script>";
+        echo "<script>window.location = 'pat_profile.php'</script>";
+
+    } else {
+      echo "<script>alert('Something went wrong, please register again!')</script>";
+    }
+  } 
+
+?>

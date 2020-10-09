@@ -1,3 +1,50 @@
+<?php
+  // check authentication
+  session_start();
+  if($_SESSION['pat_email']==true){
+    include('../connection/db.php');
+    $pmail= $_SESSION['pat_email'];
+    $query2 =  mysqli_query($conn,"select * from pat_register,pat_login where pat_register.pat_id=pat_login.pat_id and pat_email='$pmail'");
+    $row2 = mysqli_fetch_array($query2);
+    $pt = $row2['pat_name'];
+    $pid = $row2['pat_id'];
+  }else{
+    header('location:patient_login.php');
+  }
+?>
+<?php
+
+include('../connection/db.php');
+$query =  mysqli_query($conn,"select * from  pat_register where pat_id= '$pid'");
+$query1 =  mysqli_query($conn,"select * from pat_profile where pat_id= '$pid'");
+$query2 =  mysqli_query($conn,"select * from  pat_login where pat_id= '$pid'");
+$query3 =  mysqli_query($conn,"select * from  pat_health_info where pat_id= '$pid'");
+
+while($row= mysqli_fetch_array($query)) {
+  $pat_name = $row['pat_name'];
+  $pat_gender = $row['pat_gender'];
+}
+while($row1= mysqli_fetch_array($query1)) {
+ 
+    $pat_dob = $row1['pat_dob'];
+    $pat_age = $row1['pat_age'];
+    $pat_address = $row1['pat_address'];
+    $pat_contact = $row1['pat_contact'];
+  }
+  $row2= mysqli_fetch_array($query2);
+  $pat_mail = $row2['pat_email'];
+  while($row3= mysqli_fetch_array($query3)) {
+ 
+    $chest_pain = $row3['chest_pain'];
+    $short_breath = $row3['short_breath'];
+    $diabetes = $row3['diabetes'];
+    $bp = $row3['bp'];
+    $alcohol = $row3['alcohol'];
+    $smoke = $row3['smoke'];
+    $stress = $row3['stress'];
+    $exercise = $row3['exercise'];
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -100,31 +147,31 @@ tr:nth-child(even) {
                 <table>
                     <tr>
                         <td>Name :</td>
-                        <td>Daniel</td>
+                        <td><?php echo $pat_name?></td>
                     </tr>
                     <tr>
                         <td>Gender :</td>
-                        <td>Male</td>
+                        <td><?php echo $pat_gender?></td>
                     </tr>
                     <tr>
                         <td>Date of Birth :</td>
-                        <td>20/12/1997</td>
+                        <td><?php $dt=date_create($pat_dob); echo date_format($dt,'d/m/Y'); ?></td>
                     </tr>
                     <tr>
                         <td>Age :</td>
-                        <td>23</td>
+                        <td><?php echo $pat_age?></td>
                     </tr>
                     <tr>
                         <td>Address :</td>
-                        <td>London</td>
+                        <td><?php echo $pat_address?></td>
                     </tr>
                     <tr>
                         <td>Contact No :</td>
-                        <td>9988776655</td>
+                        <td><?php echo $pat_contact?></td>
                     </tr>
                     <tr>
                         <td>Email Id :</td>
-                        <td>daniel@monkey.com</td>
+                        <td><?php echo $pat_mail?></td>
                     </tr>
                 </table>
             </div>
@@ -134,35 +181,35 @@ tr:nth-child(even) {
                 <table>
                     <tr>
                         <td>Chest Pain / Discomfort :</td>
-                        <td>No</td>
+                        <td><?php echo $chest_pain?></td>
                     </tr>
                     <tr>
                         <td>Shortness of Breath :</td>
-                        <td>Yes</td>
+                        <td><?php echo $short_breath?></td>
                     </tr>
                     <tr>
                         <td>Diabetes :</td>
-                        <td>No</td>
+                        <td><?php echo $diabetes?></td>
                     </tr>
                     <tr>
                         <td>Blood Pressure:</td>
-                        <td>No</td>
+                        <td><?php echo $bp?></td>
                     </tr>
                     <tr>
                         <td>Alcohol :</td>
-                        <td>No</td>
+                        <td><?php echo $alcohol?></td>
                     </tr>
                     <tr>
                         <td>Smoking :</td>
-                        <td>No</td>
+                        <td><?php echo $smoke?></td>
                     </tr>
                     <tr>
                         <td>Stress:</td>
-                        <td>Yes</td>
+                        <td><?php echo $stress?></td>
                     </tr>
                     <tr>
                         <td>Exercise :</td>
-                        <td>Yes</td>
+                        <td><?php echo $exercise?></td>
                     </tr>
                 </table>
             </div>

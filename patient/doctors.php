@@ -4,10 +4,9 @@
   if($_SESSION['pat_email']==true){
     include('../connection/db.php');
     $pmail= $_SESSION['pat_email'];
-    $query2 =  mysqli_query($conn,"select * from pat_register,pat_login where pat_register.pat_id=pat_login.pat_id and pat_email='$pmail'");
+    $query2 =  mysqli_query($conn,"select pat_name from pat_register,pat_login where pat_register.pat_id=pat_login.pat_id and pat_email='$pmail'");
     $row2 = mysqli_fetch_array($query2);
     $pt = $row2['pat_name'];
-    $pid = $row2['pat_id'];
   }else{
     header('location:patient_login.php');
   }
@@ -43,31 +42,32 @@
         <table style="background-color:black" id="table_id" class="display">
         <thead>
             <tr>
-            <th>Doctor Name</th>
-              <th>Subject</th>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Location</th>
-              <th>Status</th>
-              <th>Delete</th>
+              <th>Doctor ID</th>
+              <th>Doctor Name</th>
+              <th>Gender</th>
+              <th>Contact No.</th>
+              <th>Email</th>
+              <th>Specialization</th>
+              <th>View Profile</th>
+              <th>Book Appointment</th>
             </tr>
         </thead>
         <tbody>
         <?php
   
             
-            $query = mysqli_query($conn,"select * from appointments where pat_id=$pid");
+            $query = mysqli_query($conn,"select * from doc_profile, doctor_register where doc_profile.doc_id = doctor_register .doc_id  ");
             while($row = mysqli_fetch_array($query)) {
         ?>  
           <tr>
+              <td><span style="color:black"><?php echo $row['doc_id']?></span></td>
               <td><span style="color:black"><?php echo $row['doc_name']?></span></td>
-              <td><span style="color:black"><?php echo $row['app_sub']?></span></td>
-              <td><span style="color:black"><?php $dt=date_create($row['app_date']); echo date_format($dt,'d/m/Y');?></span></td>
-              <td><span style="color:black"><?php $tm = date("g:i a", strtotime($row['app_time'])); echo $tm;?></span></td>
-              <td><span style="color:black"><?php echo $row['app_location']?></span></td>
-              <td><span style="color:black"><?php echo $row['app_status']?></span></td>
-
-              <td><a href="" onclick="confirm_me(<?php echo $row['app_id']; ?>)" ><span style="font-size:25px; color:red" class="fas fa-trash"></span></a></td>
+              <td><span style="color:black"><?php echo $row['doc_gender']?></span></td>
+              <td><span style="color:black"><?php echo $row['doc_contact']?></span></td>
+              <td><span style="color:black"><?php echo $row['doc_mail']?></span></td>
+              <td><span style="color:black"><?php echo $row['doc_specializn']?></span></td>
+              <td><a href="view_doctor.php?docid=<?php echo $row['doc_id'] ?>"><span style="font-size:25px; color:#3498db" class="fas fa-user-nurse"></span></a></td>
+              <td><a href="book_appointment.php?did=<?php echo $row['doc_id'] ?>"><span style="font-size:25px; color:green" class="fas fa-notes-medical"></span></a></td>
           </tr>
           <?php  } ?>
          
@@ -78,24 +78,13 @@
    
 </body>
 </html>
-<script>
-function confirm_me(k){
-  var r = confirm("Do you really want to delete appointment?");
-  if (r == true) {
-    window.location.href  = "delete_appointment.php?del="+k;
-    //alert("true");
-  } else {
-    window.location.href  = "pat_appointment.php";
-    //alert("flase");
-  }
-}
-</script>
+
 <script>
 
 $(document).ready( function () {
    
     $('#table_id').dataTable( {
-        
+        "scrollX": true
         } );
 } );
 </script>

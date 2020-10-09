@@ -1,3 +1,24 @@
+<?php
+session_start();
+include('../connection/db.php');
+
+if(isset($_POST['submit'])) {
+  $email = $_POST['pat_mail'];
+  $pass = $_POST['pat_pass'];
+  // password checking
+  $query = mysqli_query($conn, "select * from pat_login where pat_email='$email' and pat_pass='$pass'");
+  if($query){
+  if(mysqli_num_rows($query)>0){
+      $_SESSION['pat_email'] = $email;
+      header('location:patient_dashboard.php');
+  } else {
+    echo "<script>alert('invalid Email or Password, please try again!')</script>";
+  }
+
+}
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -65,6 +86,26 @@
     background: #088bf0;
     color: #fff;
 	}
+	.bigb {
+	background-color:#4c86eb;
+	border-radius:28px;
+	border:1px solid #4e6096;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:10px 36px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #7791d4;
+}
+.bigb:hover {
+	background-color:#579df2;
+}
+.bigb:active {
+	position:relative;
+	top:1px;
+}
 	
 </style>
 
@@ -80,20 +121,22 @@
 		<div>
             
 			<img src="../assets/img/username_icon.png" alt="" width="80" height="80" align="center" style="align:center;padding-left:35%;padding-top:50px;">
-			
+			<form method="post" action="patient_login.php">
 			<div class="inputWithIcon inputIconBg">
-				<input type="text" name="username" size="30" placeholder="Username..." >
+				<input type="text" name="pat_mail" size="30" placeholder="Email..." required>
 				<i class=" fa fa-user fa-lg fa-fw" ></i>
 				
              </div>      
 
 			<div class="inputWithIcon inputIconBg">
-				<input type="password"  name="password" size="30" placeholder="Password..." >
+				<input type="password"  name="pat_pass" size="30" placeholder="Password..." required>
 				<i class=" fa fa-key fa-lg fa-fw" ></i>
              </div>      
 		      
 
-		    <p  class="Button" style="text-align:center;font-size:22px;"><a  href="#">Login</a></p>
+			 <input class="bigb" id="submit" value="Login" name="submit" type="submit" >
+
+			</form>
 			
 			<p style="text-align:center;"><a  href="#" style="text-decoration:none;color:#1e90ff;background-color:#464343;">Forgot Password ?</a></p>
 		

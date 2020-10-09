@@ -1,3 +1,16 @@
+<?php
+  // check authentication
+  session_start();
+  if($_SESSION['pat_email']==true){
+    include('../connection/db.php');
+    $pmail= $_SESSION['pat_email'];
+    $query2 =  mysqli_query($conn,"select pat_name from pat_register,pat_login where pat_register.pat_id=pat_login.pat_id and pat_email='$pmail'");
+    $row2 = mysqli_fetch_array($query2);
+    $pt = $row2['pat_name'];
+  }else{
+    header('location:patient_login.php');
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,10 +64,10 @@ chart.render();
   float: left;
   width: 50%;
   padding: 10px;
-   /* Should be removed. Only for demonstration */
+   
 }
 
-/* Clear floats after the columns */
+
 .row:after {
   content: "";
   display: table;

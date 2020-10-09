@@ -52,7 +52,6 @@
               <th>Address</th>
               <th>Contact No.</th>
               <th>Details</th>
-              <th>Edit</th>
               <th>Delete</th>
               
             </tr>
@@ -67,7 +66,6 @@
               <td><span style="color:black">Dubai</span></td>
               <td><span style="color:black">1234567890</span></td>
               <td><a href=""><span style="font-size:25px; color:#3498db" class="fas fa-table"></span></a></td>
-              <td><a href="#"><span style="font-size:25px; color:green" class="fas fa-edit"></span></a></td>
               <td><a href="#"><span style="font-size:25px; color:red" class="fas fa-trash"></span></a></td>
           </tr>
           <tr>
@@ -79,7 +77,6 @@
               <td><span style="color:black">London</span></td>
               <td><span style="color:black">1234567890</span></td>
               <td><a href="#"><span style="font-size:25px; color:#3498db" class="fas fa-table"></span></a></td>
-              <td><a href="#"><span style="font-size:25px; color:green" class="fas fa-edit"></span></a></td>
               <td><a href="#"><span style="font-size:25px; color:red" class="fas fa-trash"></span></a></td>
           </tr>
           

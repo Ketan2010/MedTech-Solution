@@ -4,9 +4,10 @@
   if($_SESSION['email']==true){
     include('../connection/db.php');
     $dmail= $_SESSION['email'];
-    $query2 =  mysqli_query($conn,"select doc_name from doctor_register where doc_mail='$dmail'");
+    $query2 =  mysqli_query($conn,"select * from doctor_register where doc_mail='$dmail'");
     $row2 = mysqli_fetch_array($query2);
     $dr = $row2['doc_name'];
+    $did = $row2['doc_id'];
   }else{
     header('location:doctor_login.php');
   }
@@ -57,29 +58,28 @@
             </tr>
         </thead>
         <tbody>
+        <?php        
+            $query = mysqli_query($conn,"select * from doc_pat where doc_id=$did;");
+            while($row = mysqli_fetch_array($query)) {
+          ?>  
           <tr>
-              <td><span style="color:black">1</span></td>
-              <td><span style="color:black">Daniel</span></td>
-              <td><span style="color:black">Male</span></td>
-              <td><span style="color:black">03/05/1992</span></td>
-              <td><span style="color:black">28</span></td>
-              <td><span style="color:black">Dubai</span></td>
-              <td><span style="color:black">1234567890</span></td>
-              <td><a href=""><span style="font-size:25px; color:#3498db" class="fas fa-table"></span></a></td>
-              <td><a href="#"><span style="font-size:25px; color:red" class="fas fa-trash"></span></a></td>
+              <?php 
+              $query1=mysqli_query($conn, "select * from pat_profile where pat_id='$row[pat_id]' ");
+              $row1 = mysqli_fetch_array($query1);
+              $query2=mysqli_query($conn, "select * from pat_register where pat_id='$row[pat_id]' ");
+              $row2 = mysqli_fetch_array($query2);
+              ?>
+              <td><span style="color:black"><?php echo $row1['pat_id']?></span></td>
+              <td><span style="color:black"><?php echo $row2['pat_name']?></span></td>
+              <td><span style="color:black"><?php echo $row2['pat_gender']?></span></td>
+              <td><span style="color:black"><?php $dt= date_create($row1['pat_dob']); echo date_format($dt,'d/m/Y'); ?></span></td>
+              <td><span style="color:black"><?php echo $row1['pat_age']?></span></td>
+              <td><span style="color:black"><?php echo $row1['pat_address']?></span></td>
+              <td><span style="color:black"><?php echo $row1['pat_contact']?></span></td>
+              <td><a href="pat_details.php?pid=<?php echo $row1['pat_id']?>"><span style="font-size:25px; color:#3498db" class="fas fa-table"></span></a></td>
+              <td><a onclick="confirm_me(<?php echo $row1['pat_id'];?>,<?php echo $did;?>,'<?php echo $row2['pat_name']?>');" ><span style="font-size:25px; color:red" class="fas fa-trash"></span></a></td>
           </tr>
-          <tr>
-              <td><span style="color:black">2</span></td>
-              <td><span style="color:black">Micky</span></td>
-              <td><span style="color:black">Female</span></td>
-              <td><span style="color:black">03/05/2000</span></td>
-              <td><span style="color:black">20</span></td>
-              <td><span style="color:black">London</span></td>
-              <td><span style="color:black">1234567890</span></td>
-              <td><a href="#"><span style="font-size:25px; color:#3498db" class="fas fa-table"></span></a></td>
-              <td><a href="#"><span style="font-size:25px; color:red" class="fas fa-trash"></span></a></td>
-          </tr>
-          
+          <?php } ?>
         </tbody>
         </table>     
 </div>
@@ -87,7 +87,17 @@
    
 </body>
 </html>
-
+<script>
+function confirm_me(p,d,pn){
+  var s = "Do you really want to delete patient "+pn+"'s data?";
+  var r = confirm(s);
+  if (r == true) {
+    window.location.href  = "delete_patient.php?pid="+p+"&&did="+d;
+  } else {
+    window.location.href  = "patients_data.php";
+  }
+}
+</script>
 <script>
 
 $(document).ready( function () {

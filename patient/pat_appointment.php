@@ -26,7 +26,29 @@
  .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate  {
      color:white;
    }
-   
+   .tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
 </style>
 </head>
 <body>
@@ -56,7 +78,7 @@
         <?php
   
             
-            $query = mysqli_query($conn,"select * from appointments where pat_id=$pid");
+            $query = mysqli_query($conn,"select * from appointments where pat_id=$pid  and app_date >= CURDATE();");
             while($row = mysqli_fetch_array($query)) {
         ?>  
           <tr>
@@ -65,9 +87,26 @@
               <td><span style="color:black"><?php $dt=date_create($row['app_date']); echo date_format($dt,'d/m/Y');?></span></td>
               <td><span style="color:black"><?php $tm = date("g:i a", strtotime($row['app_time'])); echo $tm;?></span></td>
               <td><span style="color:black"><?php echo $row['app_location']?></span></td>
-              <td><span style="color:black"><?php echo $row['app_status']?></span></td>
+              <td>
+                <?php if($row['app_status']=="Pending"){?>
+                <span style="color:black">Pending</span>
+                <?php }else if($row['app_status']=="Accepted"){?>
+                  <div style="color:green" class="tooltip">Accepted
+                      <span class="tooltiptext"><?php echo $row['app_msg']?></span>
+                  </div>
+                <?php }else if($row['app_status']=="Rejected"){?>
+                  <div style="color:red" class="tooltip">Rejected
+                      <span class="tooltiptext"><?php echo $row['app_msg']?></span>
+                  </div>
+                <?php }else if($row['app_status']=="Cancelled"){?>
+                  <div style="color:red" class="tooltip">Cancelled
+                      <span class="tooltiptext"><?php echo $row['app_msg']?></span>
+                  </div>
+                
+                <?php }?>
+              </td>
 
-              <td><a href="" onclick="confirm_me(<?php echo $row['app_id']; ?>)" ><span style="font-size:25px; color:red" class="fas fa-trash"></span></a></td>
+              <td><a  onclick="confirm_me(<?php echo $row['app_id']; ?>)" ><span style="font-size:25px; color:red" class="fas fa-trash"></span></a></td>
           </tr>
           <?php  } ?>
          
@@ -83,10 +122,8 @@ function confirm_me(k){
   var r = confirm("Do you really want to delete appointment?");
   if (r == true) {
     window.location.href  = "delete_appointment.php?del="+k;
-    //alert("true");
   } else {
     window.location.href  = "pat_appointment.php";
-    //alert("flase");
   }
 }
 </script>

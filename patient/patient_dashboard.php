@@ -4,12 +4,33 @@
   if($_SESSION['pat_email']==true){
     include('../connection/db.php');
     $pmail= $_SESSION['pat_email'];
-    $query2 =  mysqli_query($conn,"select pat_name from pat_register,pat_login where pat_register.pat_id=pat_login.pat_id and pat_email='$pmail'");
+    $query2 =  mysqli_query($conn,"select * from pat_register,pat_login where pat_register.pat_id=pat_login.pat_id and pat_email='$pmail'");
     $row2 = mysqli_fetch_array($query2);
     $pt = $row2['pat_name'];
+    $pid = $row2['pat_id'];
   }else{
     header('location:patient_login.php');
   }
+?>
+<?php
+  include('../connection/db.php');
+  $query_count_doc =  mysqli_query($conn,"select * from doc_login");
+  $query_count_app =  mysqli_query($conn,"select * from appointments where pat_id=$pid and app_date >= CURDATE();");
+  $query_app_accept =  mysqli_query($conn,"select * from appointments where pat_id=$pid and app_status='Accepted' and app_date >= CURDATE();");
+  $query_app_reject =  mysqli_query($conn,"select * from appointments where pat_id=$pid and app_status='Rejected' and app_date >= CURDATE();");
+  $query_app_pending =  mysqli_query($conn,"select * from appointments where pat_id=$pid and app_status='Pending' and app_date >= CURDATE();");
+  // number of available doctors
+  $doc_count = mysqli_num_rows($query_count_doc);
+  // number of appointments to be handle
+  $app_count = mysqli_num_rows($query_count_app);
+  // number of accepted appointments
+  $accept_count = mysqli_num_rows($query_app_accept);
+  // number of rejected appointments
+  $reject_count = mysqli_num_rows($query_app_reject);
+  // number of pending appointments
+  $pending_count = mysqli_num_rows($query_app_pending);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,9 +66,9 @@ var chart = new CanvasJS.Chart("chartContainer", {
 		indexLabel: "{label} {y}",
     legendText: "{label}",
 		dataPoints: [
-			{y: 1, label: "Pending",indexLabelFontColor: "White",indexLabelFontSize:20},
-			{y: 2, label: "Cancel",indexLabelFontColor: "White",indexLabelFontSize:20},
-			{y: 2, label: "Completed",indexLabelFontColor: "White",indexLabelFontSize:20},
+			{y: <?php echo $pending_count?>, label: "Pending",indexLabelFontColor: "White",indexLabelFontSize:20},
+			{y: <?php echo $reject_count?>, label: "Cancel",indexLabelFontColor: "White",indexLabelFontSize:20},
+			{y: <?php echo $accept_count?>, label: "Completed",indexLabelFontColor: "White",indexLabelFontSize:20},
 			
 		]
 	}]
@@ -76,7 +97,29 @@ chart.render();
 * {
   box-sizing: border-box;
 }
-  
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
 </style>
 </head>
 <body>
@@ -91,10 +134,10 @@ chart.render();
         <div class="grid-container">
           <div class="row">
               <div class="column">
-                  <div style="box-shadow: 0 4px 8px 0 #b1b5b2;" class="grid-item">Available Doctors<br>5</div>
+                  <div style="box-shadow: 0 4px 8px 0 #b1b5b2;" class="grid-item">Available Doctors<br><?php echo $doc_count?></div>
               </div>
               <div class="column">
-                  <div style="box-shadow: 0 4px 8px 0 #b1b5b2;" class="grid-item">Appointments<br>5</div>
+                  <div style="box-shadow: 0 4px 8px 0 #b1b5b2;" class="grid-item">Appointments<br><?php echo $app_count?></div>
               </div>
           </div>
           <div id="chartContainer" style="height: 200px; width: 200%;"></div> 
@@ -104,34 +147,55 @@ chart.render();
         <table style="background-color:black" id="table_id" class="display">
         <thead>
             <tr>
-              <th>Appointment ID</th>
-              <th>Doctor Name</th>
+            <th>Doctor Name</th>
               <th>Subject</th>
               <th>Date</th>
               <th>Time</th>
+              <th>Location</th>
               <th>Status</th>
-              <th>Comment</th>
+              <th>Delete</th>
+              
             </tr>
         </thead>
         <tbody>
-          
+        <?php
+  
+            
+            $query = mysqli_query($conn,"select * from appointments where pat_id=$pid and app_date = CURDATE() and app_time >= curtime() and app_status !='Rejected'");
+            while($row = mysqli_fetch_array($query)) {
+        ?>  
           <tr>
-              <td><span style="color:black">2</span></td>
-              <td><span style="color:black">Joahn</span></td>
-              <td><span style="color:black">Knee Pain</span></td>
-              <td><span style="color:black">30/09/2020</span></td>
-              <td><span style="color:black">04:00 PM</span></td>
-              <td><span style="color:black">Cancel</span></td>
-              <td><a href="#"><span style="font-size:25px; color:#3498db" class="fas fa-comment-dots"></span></a></td>
+              <td><span style="color:black"><?php echo $row['doc_name']?></span></td>
+              <td><span style="color:black"><?php echo $row['app_sub']?></span></td>
+              <td><span style="color:black"><?php $dt=date_create($row['app_date']); echo date_format($dt,'d/m/Y');?></span></td>
+              <td><span style="color:black"><?php $tm = date("g:i a", strtotime($row['app_time'])); echo $tm;?></span></td>
+              <td><span style="color:black"><?php echo $row['app_location']?></span></td>
+              <td>
+                <?php if($row['app_status']=="Pending"){?>
+                <span style="color:black">Pending</span>
+                <?php }else if($row['app_status']=="Accepted"){?>
+                  <div style="color:green" class="tooltip">Accepted
+                      <span class="tooltiptext"><?php echo $row['app_msg']?></span>
+                  </div>
+                <?php }else if($row['app_status']=="Rejected"){?>
+                  <div style="color:red" class="tooltip">Rejected
+                      <span class="tooltiptext"><?php echo $row['app_msg']?></span>
+                  </div>
+                <?php }else if($row['app_status']=="Cancelled"){?>
+                  <div style="color:red" class="tooltip">Cancelled
+                      <span class="tooltiptext"><?php echo $row['app_msg']?></span>
+                  </div>
+
+                <?php }?>
+              </td>
+              <td><a  onclick="confirm_me(<?php echo $row['app_id']; ?>)" ><span style="font-size:25px; color:red" class="fas fa-trash"></span></a></td>
+
 
           </tr>
+          <?php  } ?>
          
         </tbody>
-        </table>    
- 
-        
-    
- 
+        </table>     
 
   
 </div>
@@ -139,6 +203,16 @@ chart.render();
    
 </body>
 </html>
+<script>
+function confirm_me(k){
+  var r = confirm("Do you really want to delete appointment?");
+  if (r == true) {
+    window.location.href  = "delete_appointment.php?del="+k+"&&from=dashboard";
+  } else {
+    window.location.href  = "patient_dashboard.php";
+  }
+}
+</script>
 <script>
 $(document).ready( function () {
    

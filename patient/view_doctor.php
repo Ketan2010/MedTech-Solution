@@ -23,6 +23,7 @@ while($row= mysqli_fetch_array($query)) {
   $doc_specializn = $row['doc_specializn'];
   $doc_gender = $row['doc_gender'];
   $doc_mail = $row['doc_mail'];
+  $doc_rating = $row['ratings'];
 }
 while($row1= mysqli_fetch_array($query1)) {
  
@@ -35,6 +36,10 @@ while($row1= mysqli_fetch_array($query1)) {
     $doc_hospital_name = $row1['doc_hospital_name'];
     $doc_hospital_add = $row1['doc_hospital_add'];
   }
+
+  $query_rating_status =  mysqli_query($conn,"select * from rating_state where pat_id=$pid and doc_id=$did;");
+  // id count 1 then rating is given by patient
+  $rt_state = mysqli_num_rows($query_rating_status);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -111,6 +116,26 @@ tr:nth-child(even) {
 .checked {
   color: orange;
 }
+.bigb {
+	background-color:#4c86eb;
+	border-radius:28px;
+	border:1px solid #4e6096;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:17px;
+	padding:10px 36px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #7791d4;
+}
+.bigb:hover {
+	background-color:#579df2;
+}
+.bigb:active {
+	position:relative;
+	top:1px;
+}
 </style>
 
 
@@ -130,17 +155,35 @@ tr:nth-child(even) {
         <p style="margin: 0 40 0 700px;" class='myButton' >
             <a  href="book_appointment.php?did=<?php echo $did?>"> Book Appointment</a>
         </p>
+       
     </div>
 
     <section style="margin-top:-40px" class="home">
     <br>
-    <h2 style="color:#a6d9fc" >Ratings : <span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span></h2>
-        <div  class="flex-parent">
+    
+
+        <div   class="flex-parent">
+            <div class="boxone">
+                <h2 style="color:#a6d9fc" >
+                    Ratings : <br>
+                    <span class="fa fa-star <?php echo ($doc_rating>=1)?'checked':'' ?>"></span>
+                    <span class="fa fa-star <?php echo ($doc_rating>=2)?'checked':'' ?>"></span>
+                    <span class="fa fa-star <?php echo ($doc_rating>=3)?'checked':'' ?>"></span>
+                    <span class="fa fa-star <?php echo ($doc_rating>=4)?'checked':'' ?>"></span>
+                    <span class="fa fa-star <?php echo ($doc_rating>=5)?'checked':'' ?>"></span>
+                </h2>
+                <h2 style="color:#a6d9fc; font-size:20px;" >
+                <?php 
+                if($rt_state == 0){ ?>
+                    <form method='post'>
+                    Your rating for Dr.<?php echo $doc_name?> : 
+                    <input class="inputs"  type="number" name="rate" min="1" max="5" required/>
+                    <input class="bigb" id="submit" value="Submit Rating" name="submit" type="submit" >
+                </form>
+                <?php } ?>
                 
+                </h2>
+            </div>   
             <div class="boxone">
                 <h2 style="color:#a6d9fc" >General Information</h2>
                 <table>
@@ -208,4 +251,23 @@ tr:nth-child(even) {
 
 </body>
 </html>
+<?php 
+if(isset($_POST['submit'])) {
+  
+    $rating =$_POST['rate'];
+    $ratings = intdiv($rating+$doc_rating,2);
+    // $ratings = intdiv($rt,2);	
+    $query = mysqli_query($conn,"update doctor_register set ratings='$ratings' where doc_id='$did'");
+    $query1 = mysqli_query($conn,"insert into rating_state(pat_id,doc_id) values('$pid','$did');");
+
+    if($query and $query1){
+        echo "<script>alert(Thanks for rating!')</script>";
+        echo "<script>window.location = 'view_doctor.php?docid='+$did;</script>";
+
+    } else {
+      echo "<script>alert('Something went wrong, please register again!')</script>";
+    }
+  } 
+
+?>
 

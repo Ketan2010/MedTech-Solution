@@ -315,7 +315,7 @@
 	$query_update1="UPDATE pat_profile SET pat_dob='$_POST[pat_dob]' ,pat_age='$_POST[pat_age]' ,pat_address='$_POST[pat_address]' ,pat_contact='$_POST[pat_contact]' WHERE  pat_id='$pid'";
 	$query_update2="UPDATE pat_health_info SET chest_pain='$_POST[chest_pain]'  ,short_breath='$_POST[short_breath]' ,diabetes='$_POST[diabetes]' ,bp='$_POST[bp]' ,alcohol='$_POST[alcohol]' ,smoke='$_POST[smoke]' ,stress='$_POST[stress]' ,exercise='$_POST[exercise]'  WHERE pat_id='$pid' ";
 	
-    if (mysqli_query($conn , $query_update1)and  mysqli_query($conn , $query_update2))
+    if (mysqli_query($conn , $query_update1) and  mysqli_query($conn , $query_update2))
 	{
 		echo "<script>alert('Profile is updated successful');
 		      window.location.href='pat_profile_update.php';

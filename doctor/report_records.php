@@ -36,50 +36,41 @@
 <?php include('doc_vertical_nav.php');?>
 
 <div class="main">
-        <div style="display: flex;justify-content: space-between;">
-        <h2 style="color:#a6d9fc" >Patients</h2>
+        
        
-        </div>
-        <table style="background-color:black" id="table_id" class="display">
-        <thead>
+		<h2 style="color:#a6d9fc" >Report Records</h2>
+		 <table style="background-color:white;" id="table_id" class="display">
+        <thead style="background-color:black">
             <tr>
+			 
               <th>Patient ID</th>
               <th>Patient Name</th>
-              <th>Gender</th>
-              <th>Date of birth</th>
-              <th>Age</th>
-              <th>Address</th>
-              <th>Contact No.</th>
-              <th>Details</th>
-              <th>Delete</th>
+              <th>Report date</th>
+			  <th>Report Type</th>
+              <th>Description</th>
+              <th>Report </th>
               
             </tr>
         </thead>
-        <tbody>
-        <?php        
-            $query = mysqli_query($conn,"select * from doc_pat where doc_id=$did;");
-            while($row = mysqli_fetch_array($query)) {
+        <tbody style="background-color:White;">
+        <?php  
+			$no='0';
+            $query_pat = mysqli_query($conn,"select * from doc_pat_report where doc_id='$did' ORDER BY report_date DESC");
+			
+			while($row1 = mysqli_fetch_array($query_pat)) {
           ?>  
           <tr>
-              <?php 
-              $query1=mysqli_query($conn, "select * from pat_profile where pat_id='$row[pat_id]' ");
-              $row1 = mysqli_fetch_array($query1);
-              $query2=mysqli_query($conn, "select * from pat_register where pat_id='$row[pat_id]' ");
-              $row2 = mysqli_fetch_array($query2);
-              ?>
               <td><span style="color:black"><?php echo $row1['pat_id']?></span></td>
-              <td><span style="color:black"><?php echo $row2['pat_name']?></span></td>
-              <td><span style="color:black"><?php echo $row2['pat_gender']?></span></td>
-              <td><span style="color:black"><?php $dt= date_create($row1['pat_dob']); echo date_format($dt,'d/m/Y'); ?></span></td>
-              <td><span style="color:black"><?php echo $row1['pat_age']?></span></td>
-              <td><span style="color:black"><?php echo $row1['pat_address']?></span></td>
-              <td><span style="color:black"><?php echo $row1['pat_contact']?></span></td>
-              <td><a href="pat_details.php?pid=<?php echo $row1['pat_id']?>"><span style="font-size:25px; color:#3498db" class="fas fa-table"></span></a></td>
-              <td><a onclick="confirm_me(<?php echo $row1['pat_id'];?>,<?php echo $did;?>,'<?php echo $row2['pat_name']?>');" ><span style="font-size:25px; color:red" class="fas fa-trash"></span></a></td>
-          </tr>
-          <?php } ?>
+              <td><span style="color:black"><?php $query_name=mysqli_query($conn,"select pat_name from pat_register where pat_id='$row1[pat_id]';"); $row2=mysqli_fetch_array($query_name) ;echo $row2['pat_name']?></span></td>
+              <td><span style="color:black"><?php $dt= date_create($row1['report_date']); echo date_format($dt,'d/m/Y'); ?></span></td>
+			   <td><span style="color:black"><?php echo $row1['report_type'] ?></span></td>
+              <td><span style="color:black"><?php echo $row1['report_descript'] ?></span></td>
+              <td><span class="download" ><a target="new" href="<?php $sql = mysqli_query($conn,"SELECT * FROM doc_pat_report WHERE sr_no='$row1[sr_no]'");$file = mysqli_fetch_assoc($sql);$filepath = '../upload/' . $file['name']; echo $filepath; ?>"  style="color:white;" >View	<i class="fa fa-eye" style="color:black;align:center"></i></a></span></td>
+             
+              </tr>
+			  <?php  } ?>
         </tbody>
-        </table>     
+        </table>    
 </div>
 
    
@@ -101,7 +92,7 @@ function confirm_me(p,d,pn){
 $(document).ready( function () {
    
     $('#table_id').dataTable( {
-        "scrollX": true
+        // "scrollX": true
         } );
 } );
 </script>

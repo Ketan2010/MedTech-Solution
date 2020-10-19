@@ -23,6 +23,7 @@ while($row= mysqli_fetch_array($query)) {
   $doc_specializn = $row['doc_specializn'];
   $doc_gender = $row['doc_gender'];
   $doc_mail = $row['doc_mail'];
+  $doc_rating = $row['ratings'];
 }
 while($row1= mysqli_fetch_array($query1)) {
  
@@ -134,11 +135,14 @@ tr:nth-child(even) {
 
     <section style="margin-top:-40px" class="home">
     <br>
-    <h2 style="color:#a6d9fc" >Ratings : <span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star checked"></span>
-<span class="fa fa-star"></span>
-<span class="fa fa-star"></span></h2>
+    <h2 style="color:#a6d9fc" >
+    Ratings : 
+        <span class="fa fa-star <?php echo ($doc_rating>=1)?'checked':'' ?>"></span>
+        <span class="fa fa-star <?php echo ($doc_rating>=2)?'checked':'' ?>"></span>
+        <span class="fa fa-star <?php echo ($doc_rating>=3)?'checked':'' ?>"></span>
+        <span class="fa fa-star <?php echo ($doc_rating>=4)?'checked':'' ?>"></span>
+        <span class="fa fa-star <?php echo ($doc_rating>=5)?'checked':'' ?>"></span>
+    </h2>
         <div  class="flex-parent">
                 
             <div class="boxone">

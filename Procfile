@@ -1,1 +1,0 @@
-worker : pages/index.php

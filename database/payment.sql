@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 20, 2020 at 10:04 AM
+-- Generation Time: Nov 03, 2020 at 11:03 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.2.31
 
@@ -24,13 +24,19 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `doc_login`
+-- Table structure for table `payment`
 --
 
-CREATE TABLE `doc_login` (
-  `doc_id` int(200) NOT NULL,
-  `doc_mail` text NOT NULL,
-  `doc_pass` text NOT NULL
+CREATE TABLE `payment` (
+  `pay_id` int(11) NOT NULL,
+  `app_id` int(11) NOT NULL,
+  `name_card` varchar(40) NOT NULL,
+  `card_no` text NOT NULL,
+  `exp_date` text NOT NULL,
+  `cvv` varchar(11) NOT NULL,
+  `amount` varchar(11) NOT NULL,
+  `pay_date` date NOT NULL,
+  `pay_status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -38,10 +44,20 @@ CREATE TABLE `doc_login` (
 --
 
 --
--- Indexes for table `doc_login`
+-- Indexes for table `payment`
 --
-ALTER TABLE `doc_login`
-  ADD PRIMARY KEY (`doc_id`);
+ALTER TABLE `payment`
+  ADD PRIMARY KEY (`pay_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `payment`
+--
+ALTER TABLE `payment`
+  MODIFY `pay_id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

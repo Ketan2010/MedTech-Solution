@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
 <title>MedTech Solution</title>
-<?php include('..\widgets\all_links.php');?>
+<?php include('../widgets/all_links.php'); ?>
 
 </head>
 <body>
 
 <!-- this is a navbar for before login -->
-<?php include('..\widgets\outer_navbar.php');?>
+<?php include('../widgets/outer_navbar.php');?>
 
 <section class="home">
     <div class="flex-parent">

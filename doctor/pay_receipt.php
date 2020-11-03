@@ -15,7 +15,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<?php include('../widgets/all_links.php'); ?>
+<?php include('..\widgets\all_links.php'); ?>
 <link href="../stylesheet/styleme.css" rel="stylesheet" type="text/css" media="screen, projection"/>
 
 <!-- data table -->
@@ -63,66 +63,53 @@
 
 <div class="main">
         <div style="display: flex;justify-content: space-between;">
-        <h2 style="color:#a6d9fc" >Appointment Request</h2>
+        <h2 style="color:#a6d9fc" >Receives Payments</h2>
         
         </div>
         <table style="background-color:black" id="table_id" class="display">
         <thead>
             <tr>
+			<th>Sr No </th>
+			<th>Payee Name</th>
             <th>Patient Name</th>
-              <th>Subject</th>
+              <th>Amount</th>
               <th>Date</th>
-              <th>Time</th>
-              <th>Location</th>
-              <th>Status</th>
+			 
+              
             </tr>
         </thead>
         <tbody>
         <?php
   
             
-            $query = mysqli_query($conn,"select * from appointments where doc_id=$did and app_date >= CURDATE();");
-            while($row = mysqli_fetch_array($query)) {
+            $query = mysqli_query($conn,"select * from appointments where doc_id=$did ");
+			$no='1';
+			
+            while($row = mysqli_fetch_array($query)) {	
+		    $query1 = mysqli_query($conn,"select * from payment where app_id='$row[app_id]' and pay_status='1' ORDER BY pay_date DESC");
+			
+			while($row1= mysqli_fetch_array($query1)){
+			
+			$pat_id=$row['pat_id'];
+			
+			$query2 = mysqli_query($conn,"select * from pat_register where pat_id='$pat_id' ");
+			$row2= mysqli_fetch_array($query2)
         ?>  
           <tr>
-              <td><span style="color:black"><?php echo $row['pat_name']?></span></td>
-              <td><span style="color:black"><?php echo $row['app_sub']?></span></td>
-              <td><span style="color:black"><?php $dt=date_create($row['app_date']); echo date_format($dt,'d/m/Y');?></span></td>
-              <td><span style="color:black"><?php $tm = date("g:i a", strtotime($row['app_time'])); echo $tm;?></span></td>
-              <td><span style="color:black"><?php echo $row['app_location']?></span></td>
-              <td>
-              <?php
-              if($row['app_status']=="Pending"){
-              ?>
-              <div class="btn-group">
-                <a onclick="confirm_me('Accepted',<?php echo $row['app_id']?>)"  style="background-color: #4CAF50;">Accept</a>
-                <a onclick="confirm_me('Rejected',<?php echo $row['app_id']?>)"  style="background-color: red;">Reject</a>
-              </div>
-              <?php
-              } else if($row['app_status']=="Accepted"){
-              ?>
-                <!-- check if patient is already added  -->
-                <?php
-                $d=$row['doc_id'];
-                $p =$row['pat_id'];
-                $query2 = mysqli_query($conn, "select * from doc_pat where doc_id=$d and pat_id=$p");
-                if(mysqli_num_rows($query2)==0){ ?>
-                  <a href="add_patient.php?did=<?php echo $d?>&&pid=<?php echo $p?>" title="Add patient data" ><span style="font-size:25px; color:green" class="fas fa-plus"></span></a>
-                <?php } ?>
-                <span style="color:green">Accepted</span>
-              <?php
-              } else if($row['app_status']=="Rejected"){
-              ?>
-                <span style="color:red">Rejected</span>
-              <?php
-              }?>
-              </td>
-
-          </tr>
-          <?php  } ?>
+				<td><span style="color:black"><?php echo $no;?></span></td>
+			   <td><span style="color:black"><?php echo $row1['name_card']?></span></td>
+              <td><span style="color:black"><?php echo $row2['pat_name']?></span></td>
+              <td><span style="color:black"><?php echo $row1['amount']?></span></td>
+              <td><span style="color:black"><?php $dt=date_create($row1['pay_date']); echo date_format($dt,'d/m/Y');?></span></td>
+              
+              
+              
+                
+			<?php $no=$no+1;}}?>
+              </tr>
+       
          
-        </tbody>
-        </table>     
+        </tbody>    
 </div>
 
    

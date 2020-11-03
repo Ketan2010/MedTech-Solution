@@ -15,13 +15,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<?php include('..\widgets\all_links.php'); ?>
+<?php include('../widgets/all_links.php'); ?>
 <link href="../stylesheet/styleme.css" rel="stylesheet" type="text/css" media="screen, projection"/>
 
 <!-- data table -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
   
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 <style>
  .dataTables_wrapper .dataTables_length, .dataTables_wrapper .dataTables_filter, .dataTables_wrapper .dataTables_info, .dataTables_wrapper .dataTables_processing, .dataTables_wrapper .dataTables_paginate  {
      color:white;
@@ -72,6 +75,7 @@
               <th>Location</th>
               <th>Status</th>
               <th>Delete</th>
+			  <th>Payment</th>
             </tr>
         </thead>
         <tbody>
@@ -107,7 +111,21 @@
               </td>
 
               <td><a  onclick="confirm_me(<?php echo $row['app_id']; ?>)" ><span style="font-size:25px; color:red" class="fas fa-trash"></span></a></td>
-          </tr>
+			  <?php $query1 = mysqli_query($conn,"select * from payment where app_id='$row[app_id]'");
+					$row1 = mysqli_fetch_array($query1); 
+					$pay_status=$row1['pay_status'];
+					echo $pay_status;?>
+			  
+			  <td>
+				<?php if($row['app_status']=="Accepted") {  if ($pay_status=="") { ?>	
+					<span style="color:black"><a href="payment.php?app_id=<?php echo $row['app_id'] ?>" > <button type="button" style="background-color: #4CAF50;font-size:19px;border-radius:20px;"><i class="fa fa-rupee"></i> Payment </button>  </a> </span></td>
+				<?php } else if ($pay_status=="1") { ?>
+					<div style="color:green" >Paid <i class="fa fa-check" style="font-size:20px;"></i></div>
+				<?php } }  else {  $app_msg_null='As your appointment is not accepted, you cannot proceed with the payment ';?>
+					<div  class="tooltip"><i class='far fa-comment' style='font-size:36px;color:green'></i>   <span class="tooltiptext"><?php echo $app_msg_null; ?></span></div>
+				<?php }?>
+				
+		  </tr>
           <?php  } ?>
          
         </tbody>

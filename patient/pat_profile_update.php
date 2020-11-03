@@ -42,7 +42,7 @@
 <html lang="en">
 <head>
 <title>MedTech Solution</title>
-<?php include('..\widgets\all_links.php'); ?>
+<?php include('../widgets/all_links.php'); ?>
 <link href="../stylesheet/styleme.css" rel="stylesheet" type="text/css" media="screen, projection"/>
 
 <style>

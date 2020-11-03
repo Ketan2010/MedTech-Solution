@@ -35,7 +35,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<?php include('..\widgets\all_links.php'); ?>
+<?php include('../widgets/all_links.php'); ?>
 <link href="../stylesheet/styleme.css" rel="stylesheet" type="text/css" media="screen, projection"/>
 
 <!-- data table -->
@@ -139,7 +139,12 @@ chart.render();
               <div class="column">
                   <div style="box-shadow: 0 4px 8px 0 #b1b5b2;" class="grid-item">Appointments<br><?php echo $app_count?></div>
               </div>
+              <div class="row">
+                <hr>
+                <h2 style="color:#a6d9fc" >Your Health Passport ID: <?php echo $pid?> </h2>
+              </div>
           </div>
+          
           <div id="chartContainer" style="height: 200px; width: 200%;"></div> 
         </div>
         <h2 style="color:#a6d9fc" >Upcoming Appointments</h2>

@@ -16,7 +16,7 @@ Design a Doctor-patient portal which is online health care portal that allow pat
 ## Homepage:
 ![home](https://github.com/Ketan2010/MedTech-Solution/blob/master/screenshot/homepage.png?raw=true) 
 ## Get started <br>
-![getstart](https://github.com/Ketan2010/MedTech-Solution/blob/master/screenshot/get start.png?raw=true) 
+![getstart](https://github.com/Ketan2010/MedTech-Solution/blob/master/screenshot/getstart.png?raw=true) 
 ## Doctor Register <br>
 ![docreg](https://github.com/Ketan2010/MedTech-Solution/blob/master/screenshot/docreg.png?raw=true) 
 ## Doctor Login <br>
